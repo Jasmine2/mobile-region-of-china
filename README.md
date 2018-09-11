@@ -1,14 +1,11 @@
 ## 手机号码归属地
-[![Latest Stable Version](https://img.shields.io/packagist/v/ruchee/phone_attribution.svg)](https://packagist.org/packages/ruchee/phone_attribution)
-[![Build Status](https://travis-ci.org/ruchee/phone_attribution.svg?branch=master)](https://travis-ci.org/ruchee/phone_attribution)
-[![Minimum PHP Version](https://img.shields.io/packagist/php-v/ruchee/phone_attribution.svg)](https://php.net)
 
 * 数据文件来源：[https://github.com/xluohome/phonedata/blob/master/phone.dat]
 * 解析算法参考：[https://github.com/shitoudev/phone-location/blob/master/src/PhoneLocation.php]
 
 ### 安装
 ```
-composer require 'ruchee/phone_attribution'
+composer require jasmine2/mobile-region-of-china
 ```
 
 ### 使用
@@ -16,7 +13,7 @@ composer require 'ruchee/phone_attribution'
 <?php
 
 include_once __DIR__.'/vendor/autoload.php';
-use Ruchee\PhoneAttribution\Parse;
+use jasmine2\MobileRegion\Parse;
 
 $parse = new Parse();
 $data  = $parse->parseOne('13713462969');
@@ -44,7 +41,7 @@ Array
 <?php
 
 include_once __DIR__.'/vendor/autoload.php';
-use Ruchee\PhoneAttribution\Parse;
+use jasmine2\MobileRegion\Parse;
 
 $parse = new Parse();
 
@@ -90,7 +87,7 @@ Array
 <?php
 
 include_once __DIR__.'/vendor/autoload.php';
-use Ruchee\PhoneAttribution\Parse;
+use jasmine2\MobileRegion\Parse;
 
 $parse = new Parse(__DIR__.'/phone.dat');
 
