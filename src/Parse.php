@@ -1,10 +1,10 @@
 <?php
 
-namespace Ruchee\PhoneAttribution;
+namespace jasmine2\MobileRegion;
 
 /*
  * 解析手机号码归属地
- * @author Ruchee
+ * @author Jasmine2
  * @date 2018-03-22
  */
 class Parse
@@ -22,32 +22,32 @@ class Parse
     // 返回数据
     private $return_data = [
         'status' => 1,
-        'info'   => '解析成功',
-        'data'   => [],
+        'info' => '解析成功',
+        'data' => [],
     ];
 
-    private $data_file   = __DIR__.'/../data/phone.dat';
+    private $data_file = __DIR__ . '/../data/phone.dat';
     private $file_handle = null;
-    private $file_size   = 0;
+    private $file_size = 0;
 
     public function __construct(string $custom_data_file = null)
     {
-        if (! empty($custom_data_file)) {
+        if (!empty($custom_data_file)) {
             $this->data_file = $custom_data_file;
         }
-        if (! file_exists($this->data_file)) {
+        if (!file_exists($this->data_file)) {
             $this->return_data['status'] = 0;
-            $this->return_data['info']   = '数据文件不存在';
-            return ;
+            $this->return_data['info'] = '数据文件不存在';
+            return;
         }
 
         $this->file_handle = fopen($this->data_file, 'r');
-        $this->file_size   = filesize($this->data_file);
+        $this->file_size = filesize($this->data_file);
     }
 
     public function __destruct()
     {
-        if (! empty($this->file_handle)) {
+        if (!empty($this->file_handle)) {
             fclose($this->file_handle);
         }
     }
@@ -55,14 +55,14 @@ class Parse
     /*
      * 解析单个号码
      */
-    public function parseOne(string $phone) : array
+    public function parseOne(string $phone): array
     {
         if ($this->return_data['status'] != 1) {
             return $this->return_data;
         }
         if (empty($phone)) {
             $this->return_data['status'] = 0;
-            $this->return_data['info']   = '手机号码不能为空';
+            $this->return_data['info'] = '手机号码不能为空';
             return $this->return_data;
         }
 
@@ -70,7 +70,7 @@ class Parse
 
         if (empty($this->return_data['data'])) {
             $this->return_data['status'] = 0;
-            $this->return_data['info']   = '解析失败';
+            $this->return_data['info'] = '解析失败';
         }
 
         return $this->return_data;
@@ -79,35 +79,35 @@ class Parse
     /*
      * 解析多个号码
      */
-    public function parseList(array $phone_list) : array
+    public function parseList(array $phone_list): array
     {
         if ($this->return_data['status'] != 1) {
             return $this->return_data;
         }
         if (empty($phone_list)) {
             $this->return_data['status'] = 0;
-            $this->return_data['info']   = '手机号码列表不能为空';
+            $this->return_data['info'] = '手机号码列表不能为空';
             return $this->return_data;
         }
 
-        $failed                    = true;
+        $failed = true;
         $this->return_data['data'] = [];
         foreach ($phone_list as $phone) {
             $phone = trim($phone);
-            $ret   = $this->parse($phone);
+            $ret = $this->parse($phone);
 
             $this->return_data['data'][$phone] = $ret;
 
             // 只要有一个号码解析成功，就不算失败
-            if (! empty($ret)) {
+            if (!empty($ret)) {
                 $failed = false;
             }
         }
 
         if ($failed) {
             $this->return_data['status'] = 0;
-            $this->return_data['info']   = '解析失败';
-            $this->return_data['data']   = [];
+            $this->return_data['info'] = '解析失败';
+            $this->return_data['data'] = [];
         }
 
         return $this->return_data;
@@ -116,22 +116,22 @@ class Parse
     /*
      * 具体的解析算法
      */
-    private function parse(string $phone) : array
+    private function parse(string $phone): array
     {
         if (strlen($phone) != 11) {
             return [];
         }
 
-        $data   = [];
+        $data = [];
         $search = substr($phone, 0, 7);
 
         fseek($this->file_handle, 4);
 
-        $offset      = fread($this->file_handle, 4);
+        $offset = fread($this->file_handle, 4);
         $index_start = implode('', unpack('L', $offset));
-        $total       = ($this->file_size - $index_start) / 9;
+        $total = ($this->file_size - $index_start) / 9;
 
-        [$low, $mid, $hig] = [0, 0, $total - 1];
+        list($low, $mid, $hig) = [0, 0, $total - 1];
 
         // 二分查找
         while ($low <= $hig) {
@@ -143,10 +143,10 @@ class Parse
             if ($gus == $search) {
                 fseek($this->file_handle, ($mid * 9 + 4) + $index_start);
 
-                $info    = unpack('Lgus_pos/ctype', fread($this->file_handle, 5));
-                $pos     = $info['gus_pos'];
-                $type    = $info['type'];
-                $spname  = $this->sp_list[$type];
+                $info = unpack('Lgus_pos/ctype', fread($this->file_handle, 5));
+                $pos = $info['gus_pos'];
+                $type = $info['type'];
+                $spname = $this->sp_list[$type];
 
                 fseek($this->file_handle, $pos);
 
@@ -155,13 +155,13 @@ class Parse
                     $info .= $tmp;
                 }
 
-                $info     = explode('|', $info);
-                $data     = [
+                $info = explode('|', $info);
+                $data = [
                     'province' => $info[0], // 省份
-                    'city'     => $info[1], // 城市
+                    'city' => $info[1], // 城市
                     'postcode' => $info[2], // 邮编
-                    'prefix'   => $info[3], // 区号
-                    'spname'   => $spname,  // 运营商
+                    'prefix' => $info[3], // 区号
+                    'spname' => $spname,  // 运营商
                 ];
 
                 break;

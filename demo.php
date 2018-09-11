@@ -1,14 +1,13 @@
 <?php
 
-include_once __DIR__.'/vendor/autoload.php';
-use Ruchee\PhoneAttribution\Parse;
+require __DIR__ . '/vendor/autoload.php';
 
-$parse = new Parse();  // 使用默认数据源
+$parse = new \jasmine2\MobileRegion\Parse();  // 使用默认数据源
 // $parse = new Parse(__DIR__.'/data/phone.dat');  // 使用自定义数据源
 
 
 $phone = '13713462969';
-$data  = $parse->parseOne($phone);
+$data = $parse->parseOne($phone);
 print_r($data);
 
 

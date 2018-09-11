@@ -1,26 +1,29 @@
 {
-    "name": "ruchee/phone_attribution",
-    "description": "Attribution of Chinese mobile phone number",
-    "keywords": ["phone", "attribution", "chinese"],
-    "type": "library",
-    "license": "MIT",
-    "homepage": "https://github.com/ruchee/phone_attribution",
-    "authors": [
-        {
-            "name": "Ruchee",
-            "email": "my@ruchee.com",
-            "homepage": "http://www.ruchee.com"
-        }
-    ],
-    "require": {
-        "php": "~7.1"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~7.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Ruchee\\PhoneAttribution\\": "src/"
-        }
+  "name": "jasmine2/mobile-region-of-china",
+  "description": "Attribution of Chinese mobile phone number",
+  "keywords": [
+    "phone",
+    "attribution",
+    "chinese"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/Jasmine2/mobile-region-of-china",
+  "authors": [
+    {
+      "name": "Jasmine2",
+      "email": "youjingqiang@vip.qq.com"
     }
+  ],
+  "require": {
+    "php": "~7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "jasmine2\\MobileRegion\\": "src/"
+    }
+  }
 }
